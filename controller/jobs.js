@@ -1,4 +1,6 @@
 const Jobs = require("../model/job")
+const Jobapplied = require("../model/jobapplied")
+
 const postjobs = async (req, res, next) => {
     try {
         if (!req.file) {
@@ -39,9 +41,11 @@ const deletejob = async (req, res, next) => {
                 data: "Not valid seller.. "
             })
         }
+        let deleteappliedjobs = await Jobapplied.findOneAndDelete({ 'jobs.job_id': req.params.id });
         let jobs = await Jobs.findByIdAndDelete(req.params.id)
         res.send({
-            data: jobs
+            data1: jobs,
+            data2: deleteappliedjobs
         })
     }
     catch (err) {
